@@ -1,6 +1,6 @@
 -- Creates a MySql server with
 -- database hbnb_dev_db
--- user hbnb_dev (in localhost)
+-- user hbnb_dev (localhost)
 -- password of hbnb dev is hbnb_dev_pwd
 
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
