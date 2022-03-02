@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 from importlib_metadata import metadata
+from models.base_model import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session, scoped_session
 from sqlalchemy.sql import text
 import os
-
-
-
 
 
 class DBStorage:
@@ -31,7 +29,7 @@ class DBStorage:
         env = os.getenv("HBNB_ENV")
         if env == 'test':
             #We need to drop all tables, drop_all()?
-            metadata.drop_all(self.__engine)
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """Query on current database session"""
@@ -54,17 +52,29 @@ class DBStorage:
         #         objs.update({"{}.{}".format(c.__name__, item.id): item
         #                      for item in self.__session.query(c)})
         # return objs
-        dict = {}
-        if cls != None:
-            if type(cls) == str:
-                cls = classes[cls]
-            for i in self.__session.query(cls):
-                dict[i.__class__.__name__ + '.' + i.id] = i
+        dictionary = {}
+        if cls:
+            # if type(cls) == str:
+            #     cls = classes[cls]
+            dic = self.__session.query(cls).all()
+            for el in dic:
+                key = el.__class__.__name__ + '.' + el.id
+                dictionary[key] = el
         else:
-            for cls in classes.values():
-                for i in self.__session.query(cls):
-                    dict[i.__class__.__name__ + '.' + i.id] = i
-        return dict
+            dic = self.__session.query(State).all()
+            dic += self.__session.query(City).all()
+            # dic += self.__session.query(Amenity).all()
+            # dic += self.__session.query(Place).all()
+            # dic += self.__session.query(Review).all()
+            # dic += self.__session.query(User).all()
+            for el in dic:
+                key = el.__class__.__name__ + '.' + el.id
+                dictionary[key] = el
+            
+            # for cls in classes.values():
+            #     for i in self.__session.query(cls):
+            #         dict[i.__class__.__name__ + '.' + i.id] = i
+        return dictionary
     
     def new(self, obj):
         """add new object to DB"""
