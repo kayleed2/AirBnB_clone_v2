@@ -123,29 +123,30 @@ class HBNBCommand(cmd.Cmd):
         elif split_args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        elif len(split_args) == 1:
-            new_instance = HBNBCommand.classes[split_args[0]]()
-            storage.save()
-            print(new_instance.id)
-            storage.save()
-            return
+        # elif len(split_args) == 1:
+        #     new_instance = HBNBCommand.classes[split_args[0]]()
+        #     storage.save()
+        #     print(new_instance.id)
+        #     storage.save()
+        #     return
         new_instance = HBNBCommand.classes[split_args[0]]()
-        if split_args[1] is not None:
-            for i in range(1, len(split_args)):
-                key_val = split_args[i].partition('=')
-                new_key = key_val[0]
-                new_val = key_val[2]
-                if '\"' in new_val:
-                    new_val = new_val[1:-1]
-                    new_val = new_val.replace("_", " ")
-                elif '.' in new_val:
-                    new_val = float(new_val)
-                else:
-                    new_val = int(new_val)
+        #  if split_args[1] is not None:
+        for i in range(1, len(split_args)):
+            key_val = split_args[i].partition('=')
+            new_key = key_val[0]
+            new_val = key_val[2]
+            if '\"' in new_val:
+                new_val = new_val[1:-1]
+                new_val = new_val.replace("_", " ")
+            elif '.' in new_val:
+                new_val = float(new_val)
+            else:
+                new_val = int(new_val)
+
+            if hasattr(new_instance, new_key):
                 setattr(new_instance, new_key, new_val)
-                
-        else:
-            print("Not enough args")
+
+        storage.new(new_instance)
         storage.save()
         print(new_instance.id)
         storage.save()
@@ -230,14 +231,14 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
-        print(print_list)
+        print(*print_list)
 
     def help_all(self):
         """ Help information for the all command """
