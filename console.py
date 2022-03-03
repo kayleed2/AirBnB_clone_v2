@@ -237,11 +237,11 @@ class HBNBCommand(cmd.Cmd):
         else:
             for k, v in storage.all().items():
                 print_list.append(str(v))
-        new_string = str(print_list)
-        new_string = new_string.replace("\"", "")
-        new_list = []
-        new_list.append(new_string)
-        print(*new_list)
+        # new_string = str(print_list)
+        # new_string = new_string.replace("\"", "")
+        # new_list = []
+        # new_list.append(new_string)
+        print(print_list)
 
     def help_all(self):
         """ Help information for the all command """
