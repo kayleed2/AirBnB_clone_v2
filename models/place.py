@@ -19,19 +19,19 @@ class Place(BaseModel, Base):
     number_bathrooms = Column(Integer, default=0, nullable=False)
     max_guest = Column(Integer, default=0, nullable=False)
     price_by_night = Column(Integer, default=0, nullable=False)
-    latitude = Column(Float, default=0, nullable=True)
-    longitude = Column(Float, default=0, nullable=True)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
     amenity_ids = []
 
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
-        reviews = relationship('Review', backref='place',
-                               cascade='all, delete-orphan')
-    else:
-        @property
-        def reviews(self):
-            """Attribute for FileStorage"""
-            review_list = []
-            for el in models.storage.all(Review).values():
-                if el.place_id == self.id:
-                    review_list.append(el)
-            return review_list
+    # if getenv('HBNB_TYPE_STORAGE') == 'db':
+    #     reviews = relationship('Review', backref='place',
+    #                            cascade='all, delete-orphan')
+    # else:
+    #     @property
+    #     def reviews(self):
+    #         """Attribute for FileStorage"""
+    #         review_list = []
+    #         for el in models.storage.all(Review).values():
+    #             if el.place_id == self.id:
+    #                 review_list.append(el)
+    #         return review_list
