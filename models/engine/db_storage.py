@@ -43,30 +43,19 @@ class DBStorage:
 
         classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
-        
-        # if cls in the_class:
-        #     objs.update({"{}.{}".format(cls.__name__, item.id): item
-        #                  for item in self.__session.query(cls)})
-        # elif cls is None:
-        #     for (c) in the_class:
-        #         objs.update({"{}.{}".format(c.__name__, item.id): item
-        #                      for item in self.__session.query(c)})
-        # return objs
+
         dictionary = {}
-        if cls:
+        if cls in classes.keys():
             # if type(cls) == str:
             #     cls = classes[cls]
-            dic = self.__session.query(cls).all()
+            dic = self.__session.query(classes[cls]).all()
             for el in dic:
                 key = el.__class__.__name__ + '.' + el.id
                 dictionary[key] = el
         else:
             dic = self.__session.query(State).all()
             dic += self.__session.query(City).all()
-            # dic += self.__session.query(Amenity).all()
-            # dic += self.__session.query(Place).all()
-            # dic += self.__session.query(Review).all()
-            # dic += self.__session.query(User).all()
+
             for el in dic:
                 key = el.__class__.__name__ + '.' + el.id
                 dictionary[key] = el
