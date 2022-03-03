@@ -1,11 +1,17 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 from importlib_metadata import metadata
-from models.base_model import Base
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.sql import text
 import os
+from models.base_model import BaseModel, Base
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 class DBStorage:
@@ -32,13 +38,6 @@ class DBStorage:
 
     def all(self, cls=None):
         """Query on current database session"""
-        from models.base_model import BaseModel, Base
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
 
         classes = {"Amenity": Amenity, "City": City,
                    "Place": Place, "Review":
@@ -77,15 +76,7 @@ class DBStorage:
             self.__session.delete(obj)
 
     def reload(self):
-        from models.base_model import BaseModel, Base
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
         """Creates all tables in database"""
         Base.metadata.create_all(self.__engine)
-        Session = scoped_session(sessionmaker(bind=self.__engine,
+        self.__session = scoped_session(sessionmaker(bind=self.__engine,
                                  expire_on_commit=False))
-        self.__session = Session()
