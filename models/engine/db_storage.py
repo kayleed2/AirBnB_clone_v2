@@ -52,10 +52,13 @@ class DBStorage:
             for el in dic:
                 key = el.__class__.__name__ + '.' + el.id
                 dictionary[key] = el
-        else:
-            dic = self.__session.query(State).all()
-            dic += self.__session.query(City).all()
-
+        elif cls is None:
+            new_classes = (State, User, City, Review, Place)
+            dic = []
+            for cls in new_classes:
+                # print(self.__session.query(cls).all())
+                dic += self.__session.query(cls).all()
+            # dic += self.__session.query(City).all()
             for el in dic:
                 key = el.__class__.__name__ + '.' + el.id
                 dictionary[key] = el
