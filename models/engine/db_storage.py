@@ -53,7 +53,7 @@ class DBStorage:
                 key = el.__class__.__name__ + '.' + el.id
                 dictionary[key] = el
         elif cls is None:
-            new_classes = (State, User, City, Review, Place, Amenity)
+            new_classes = (State, User, City, Review, Place)
             dic = []
             for cls in new_classes:
                 dic += self.__session.query(cls).all()
@@ -77,6 +77,13 @@ class DBStorage:
             self.__session.delete(obj)
 
     def reload(self):
+        from models.base_model import BaseModel, Base
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
         """Creates all tables in database"""
         Base.metadata.create_all(self.__engine)
         Session = scoped_session(sessionmaker(bind=self.__engine,
