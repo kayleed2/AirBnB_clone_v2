@@ -22,13 +22,12 @@ class DBStorage:
         passwd = os.getenv("HBNB_MYSQL_PWD")
         host = os.getenv("HBNB_MYSQL_HOST")
         db = os.getenv("HBNB_MYSQL_DB")
-        
+
         self.__engine = create_engine('{}+{}://{}:{}@{}/{}'
-                                .format(dialect, driver, user, passwd, host,
-                            db), pool_pre_ping=True)
+                                      .format(dialect, driver, user, passwd,
+                                              host, db), pool_pre_ping=True)
         env = os.getenv("HBNB_ENV")
         if env == 'test':
-            #We need to drop all tables, drop_all()?
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
@@ -42,7 +41,8 @@ class DBStorage:
         from models.review import Review
 
         classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+                   "Place": Place, "Review":
+                   Review, "State": State, "User": User}
 
         dictionary = {}
         if cls in classes.keys():
@@ -53,21 +53,16 @@ class DBStorage:
                 key = el.__class__.__name__ + '.' + el.id
                 dictionary[key] = el
         elif cls is None:
-            new_classes = (State, User, City, Review, Place)
+            new_classes = (State, User, City, Review, Place, Amenity)
             dic = []
             for cls in new_classes:
-                # print(self.__session.query(cls).all())
                 dic += self.__session.query(cls).all()
-            # dic += self.__session.query(City).all()
             for el in dic:
                 key = el.__class__.__name__ + '.' + el.id
                 dictionary[key] = el
-            
-            # for cls in classes.values():
-            #     for i in self.__session.query(cls):
-            #         dict[i.__class__.__name__ + '.' + i.id] = i
+
         return dictionary
-    
+
     def new(self, obj):
         """add new object to DB"""
         self.__session.add(obj)
@@ -75,7 +70,6 @@ class DBStorage:
     def save(self):
         """Commit all changes to db session"""
         self.__session.commit()
-        
 
     def delete(self, obj=None):
         """Delete object if exist"""
@@ -83,32 +77,8 @@ class DBStorage:
             self.__session.delete(obj)
 
     def reload(self):
-       """Creates all tables in database"""
-       from models.base_model import BaseModel, Base
-       from models.user import User
-       from models.place import Place
-       from models.state import State
-       from models.city import City
-       from models.amenity import Amenity
-       from models.review import Review
-       
-       Base.metadata.create_all(self.__engine)
-       Session = scoped_session(sessionmaker(bind=self.__engine, expire_on_commit=False))
-       self.__session = Session()
-
-
-    def classes(self):
-        """Defines classes"""
-        from models.base_model import BaseModel, Base
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
-        classes = {
-                    'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
-                    }
-        return classes
+        """Creates all tables in database"""
+        Base.metadata.create_all(self.__engine)
+        Session = scoped_session(sessionmaker(bind=self.__engine,
+                                 expire_on_commit=False))
+        self.__session = Session()
