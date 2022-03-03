@@ -13,4 +13,4 @@ class City(BaseModel, Base):
     __tablename__ = 'cities'
 
     places = relationship('Place', backref='cities',
-                          cascade='all, delete-orphan')
+                          cascade='all, delete, delete-orphan')
