@@ -7,6 +7,7 @@ from os import getenv
 from sqlalchemy.orm import relationship
 import models
 
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
@@ -24,4 +25,3 @@ class State(BaseModel, Base):
                 if el.state_id == self.id:
                     city_list.append(el)
             return city_list
-
