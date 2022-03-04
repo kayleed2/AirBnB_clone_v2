@@ -10,12 +10,12 @@ from os import getenv
 from models.amenity import Amenity
 
 place_amenity = Table('place_amenity', Base.metadata,
-                          Column('place_id',
-                                 String(60), ForeignKey('places.id'),
-                                 primary_key=True, nullable=False),
-                          Column('amenity_id',
-                                 String(60), ForeignKey('amenities.id'),
-                                 primary_key=True, nullable=False))
+                      Column('place_id',
+                             String(60), ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column('amenity_id',
+                             String(60), ForeignKey('amenities.id'),
+                             primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -49,11 +49,12 @@ class Place(BaseModel, Base):
                     review_list.append(el)
             # return review_list
 
-        @property 
+        @property
         def amenities(self):
             """Returns a list of Amenities"""
             all_amenities = models.storage.all(Amenity)
-            amenities = [amen for amen in all_amenities.values() if amen.id == self.amenity_ids]
+            amenities = [amen for amen in all_amenities.values()
+                         if amen.id == self.amenity_ids]
 
         @amenities.setter
         def amenities(self, value):
