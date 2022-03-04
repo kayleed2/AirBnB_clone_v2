@@ -1,4 +1,4 @@
-#!/usr/bin/python3-
+#!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
 from models.review import Review
@@ -35,9 +35,9 @@ class Place(BaseModel, Base):
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship('Review', backref='place',
-                               cascade='all, delete-orphan')
+                               cascade='all, delete, delete-orphan')
         amenities = relationship("Amenity", secondary="place_amenity",
-                                 back_populates="place_amenities",
+                                 backref="place_amenities",
                                  viewonly=False)
     else:
         @property
