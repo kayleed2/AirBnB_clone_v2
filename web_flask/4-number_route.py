@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Script that starts a Flask web application"""
-from tkinter import N
 from flask import Flask
 
 
