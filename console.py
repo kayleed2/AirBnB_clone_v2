@@ -122,14 +122,7 @@ class HBNBCommand(cmd.Cmd):
         elif split_args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        # elif len(split_args) == 1:
-        #     new_instance = HBNBCommand.classes[split_args[0]]()
-        #     storage.save()
-        #     print(new_instance.id)
-        #     storage.save()
-        #     return
         new_instance = HBNBCommand.classes[split_args[0]]()
-        #  if split_args[1] is not None:
         for i in range(1, len(split_args)):
             key_val = split_args[i].partition('=')
             new_key = key_val[0]
@@ -235,10 +228,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             for k, v in storage.all().items():
                 print_list.append(str(v))
-        # new_string = str(print_list)
-        # new_string = new_string.replace("\"", "")
-        # new_list = []
-        # new_list.append(new_string)
         print(print_list)
 
     def help_all(self):
