@@ -38,27 +38,24 @@ class DBStorage:
     def all(self, cls=None):
         """Query on current database session"""
 
-        classes = {"Amenity": Amenity, "City": City,
-                   "Place": Place, "Review":
-                   Review, "State": State, "User": User}
+        classes = (Amenity, City, Place,
+                   Review, State, User)
 
         dictionary = {}
-        if cls in classes.keys():
+        if cls in classes:
             # if type(cls) == str:
             #     cls = classes[cls]
-            dic = self.__session.query(classes[cls]).all()
+            dic = self.__session.query(cls).all()
             for el in dic:
                 key = el.__class__.__name__ + '.' + el.id
                 dictionary[key] = el
         elif cls is None:
-            new_classes = (State, User, City, Review, Place)
             dic = []
-            for cls in new_classes:
+            for cls in classes:
                 dic += self.__session.query(cls).all()
             for el in dic:
                 key = el.__class__.__name__ + '.' + el.id
                 dictionary[key] = el
-
         return dictionary
 
     def new(self, obj):
