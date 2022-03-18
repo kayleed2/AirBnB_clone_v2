@@ -22,7 +22,8 @@ def states(id=None):
         for k, v in states.items():
             if id == v.id:
                 inst = v
-        return render_template('9-states.html', states=states, id=id, inst=inst)
+        return render_template('9-states.html',
+                               states=states, id=id, inst=inst)
     elif id is None:
         return render_template('9-states.html', states=states, inst=inst)
 
