@@ -35,8 +35,8 @@
 					<h3>Amenities</h3>
 					<h4>&nbsp;</h4>
 					<ul class="popover">
-						{% for k, v in amenities.items() %}
-							<li><h4>{{ v.name }}</h4></li>
+						{% for v in amenities %}
+							<li><h4>{{ v }}</h4></li>
 						{% endfor %}
 					</ul>
 				</div>

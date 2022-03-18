@@ -16,9 +16,13 @@ def teardown_appcontext(response_or_exc):
 
 @app.route('/hbnb_filters', strict_slashes=False)
 def hbnb_filters():
+    amenity_names = []
     states = storage.all(State)
     cities = storage.all(City)
-    amenities = storage.all(Amenity)
+    amenities = storage.all(Amenity).values()
+    for v in amenities:
+        amenity_names.append(v.name)
+    amenities = sorted(amenity_names)
     return render_template('10-hbnb_filters.html', states=states,
                            cities=cities, amenities=amenities)
 
