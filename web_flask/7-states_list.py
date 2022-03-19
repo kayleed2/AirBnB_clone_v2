@@ -5,7 +5,7 @@ from models import storage
 from models.state import State
 
 app = Flask(__name__)
-
+states = storage.all()
 
 @app.teardown_appcontext
 def teardown_appcontext(response_or_exc):
