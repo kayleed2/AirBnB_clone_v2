@@ -7,12 +7,13 @@
     <h1>States</h1>
     <ul>
     {% for k, v in states.items() %}
-        <li>{{ v.id }}: <B>{{ v.name }}</B></li>
-        {% for city in v.cities %}
-        <ul>
-            <li>{{ city.id }}: <B>{{ city.name }}</B></li>
-        </ul>
-        {% endfor %}
+        <li>{{ v.id }}: <B>{{ v.name }}</B>
+            <ul>
+            {% for city in v.cities %}
+                <li>{{ city.id }}: <B>{{ city.name }}</B></li>
+            {% endfor %}
+            </ul>
+        </li>
     {% endfor %}
     </ul>
 </body>
