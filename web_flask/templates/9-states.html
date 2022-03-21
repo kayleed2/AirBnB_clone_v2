@@ -7,7 +7,7 @@
     {% if not id %}
         <h1>States</h1>
         <ul>
-        {% for k, v in states.items() %}
+        {% for v in states.values() | sort(attribute="name") %}
             <li>State: {{ v.id }}: <B>{{ v.name }}</B></li>
         {% endfor %}
         </ul>
@@ -17,7 +17,7 @@
             <h1>State: {{ inst.name }}</h1>
             <h3>Cities</h3>
                     <ul>
-                        {% for city in inst.cities %}
+                        {% for city in inst.cities | sort(attribute="name") %}
                             <li>City: {{ city.id }}: <B>{{ city.name }}</B></li>
                         {% endfor %}
                     </ul>
