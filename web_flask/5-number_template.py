@@ -22,11 +22,15 @@ def C(text):
     return 'C %s' % new
 
 
-@app.route('/python/', strict_slashes=False)
+@app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def python(text="is cool"):
-        new = text.replace("_", " ")
-        return 'Python %s' % new
+def python(text=None):
+    if text:
+        if text is not None:
+            new = text.replace("_", " ")
+            return 'Python %s' % new
+    else:
+        return 'Python %s' % "is cool"
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
